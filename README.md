@@ -29,3 +29,8 @@ Then run the following commands to run your app:
   open -a simulator (to get iOS Simulator)
   flutter run
   ```
+
+## References
+
+- [Rivaan Ranawat's](https://github.com/RivaanRanawat) [Youtube tutorial](https://www.youtube.com/watch?v=ylJz7N-dv1E)
+- [Flutter Documentation](https://docs.flutter.dev/)
