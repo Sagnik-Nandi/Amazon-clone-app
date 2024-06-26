@@ -6,11 +6,30 @@ A new Flutter project.
 
 This project is a starting point for a Flutter application.
 
-A few resources to get you started if this is your first Flutter project:
+## Running Locally
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+After cloning this repository, migrate to the Amazon_clone folder. Then, follow the following steps:
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+- Create MongoDB Project & Cluster
+- Click on Connect, follow the process where you will get the uri.- Replace the MongoDB uri with yours in server/index.js.
+- Head to lib/constants/global_variables.dart file, replace with your IP Address.
+
+Then run the following commands to run your app:
+
+### Server Side
+  
+  ```console
+  cd server
+  npm install
+  npm run dev (for continuous development)
+  OR
+  npm start (to run script 1 time)
+  ```
+
+### Client Side
+  
+  ```console
+  flutter pub get
+  open -a simulator (to get iOS Simulator)
+  flutter run
+  ```
