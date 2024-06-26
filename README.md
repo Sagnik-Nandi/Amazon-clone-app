@@ -1,4 +1,4 @@
-# amazon_clone
+# Amazon_clone
 
 Made an Amazon clone using Flutter and NodeJS.
 
