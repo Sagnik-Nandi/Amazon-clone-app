@@ -4,6 +4,7 @@ const mongoose = require('mongoose');
 
 //IMPORT FROM FILES
 const authRouter= require('./routes/auth');
+const adminRouter = require('./routes/admin');
 
 //INITIALIZATION
 const PORT = 3000;
@@ -14,6 +15,7 @@ const connectDB = `<YOUR MONGODB CLUSTER URI>`;
 //middleware
 api.use(express.json());
 api.use(authRouter);
+api.use(adminRouter);
 
 //Connections
 mongoose.connect(connectDB).then(() =>{ 

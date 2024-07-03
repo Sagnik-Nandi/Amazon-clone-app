@@ -135,6 +135,8 @@ authRouter.post('/api/validate', async (req, res)=> {
         if(!user) return res.json(false);
 
         return res.json(true);
+        //this could have been handled by the auth middeleware
+        //but return type is different so everything is different
     }catch(err){
         //simplifies error handling
         res.status(500).json({error: err.message});
