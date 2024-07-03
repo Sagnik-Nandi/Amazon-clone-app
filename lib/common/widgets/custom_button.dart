@@ -8,14 +8,18 @@ class CustomButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return TextButton(
+    return ElevatedButton(
       onPressed: onTap,
-      style: TextButton.styleFrom(
-          backgroundColor: GlobalVariables.secondaryColor,
-          foregroundColor: Colors.white,
-          minimumSize: const Size(double.infinity, 50),
-          shape: const RoundedRectangleBorder(borderRadius: BorderRadius.zero)),
-      child: Text(text),
+      style: ElevatedButton.styleFrom(
+        elevation: 0,
+        backgroundColor: GlobalVariables.secondaryColor,
+        foregroundColor: Colors.white,
+        minimumSize: const Size(double.infinity, 50),
+        shape: const RoundedRectangleBorder(borderRadius: BorderRadius.zero)),
+      child: Text(
+        text,
+        style: const TextStyle(fontSize: 16),
+      ),
     );
   }
 }

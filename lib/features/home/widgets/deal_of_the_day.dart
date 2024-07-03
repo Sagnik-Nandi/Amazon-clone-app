@@ -36,6 +36,45 @@ class DealOfTheDay extends StatelessWidget {
             maxLines: 2,
             overflow: TextOverflow.ellipsis,
           ),
+        ),
+        SingleChildScrollView(
+          scrollDirection: Axis.horizontal,
+          child: Row(
+            children: [
+              Image.network(
+                'https://cdn.shopify.com/s/files/1/0070/7032/files/image5_4578a9e6-2eff-4a5a-8d8c-9292252ec848.jpg?v=1620247043',
+                fit: BoxFit.fitWidth,
+                width: 100,
+                height: 100,
+              ),
+              Image.network(
+                'https://cdn.shopify.com/s/files/1/0070/7032/files/image5_4578a9e6-2eff-4a5a-8d8c-9292252ec848.jpg?v=1620247043',
+                fit: BoxFit.fitWidth,
+                width: 100,
+                height: 100,
+              ),
+              Image.network(
+                'https://cdn.shopify.com/s/files/1/0070/7032/files/image5_4578a9e6-2eff-4a5a-8d8c-9292252ec848.jpg?v=1620247043',
+                fit: BoxFit.fitWidth,
+                width: 100,
+                height: 100,
+              ),
+              Image.network(
+                'https://cdn.shopify.com/s/files/1/0070/7032/files/image5_4578a9e6-2eff-4a5a-8d8c-9292252ec848.jpg?v=1620247043',
+                fit: BoxFit.fitWidth,
+                width: 100,
+                height: 100,
+              ),
+            ],
+          ),
+        ),
+        Container(
+          alignment: Alignment.topLeft,
+          padding: const EdgeInsets.only(left: 15, top: 15, bottom: 15),
+          child: Text(
+            'See all deals',
+            style: TextStyle(color: Colors.cyan[800]),
+          )
         )
       ],
     );

@@ -9,7 +9,7 @@ const authRouter= require('./routes/auth');
 const PORT = 3000;
 const api = express();
 const password = encodeURIComponent("<YOUR PASSWORD>");
-const connectDB = `<YOUR_MONGODB_CLUSTER_URI>`;
+const connectDB = `<YOUR MONGODB CLUSTER URI>`;
 
 //middleware
 api.use(express.json());
