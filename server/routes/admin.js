@@ -26,4 +26,16 @@ adminRouter.get('/admin/get-products', admin, async (req, res)=>{
     }
 })
 
+//Delete selected product
+adminRouter.post('/admin/remove-product', admin, async (req, res)=>{
+    try {
+        const {id} = req.body;
+        const product= await Product.findByIdAndDelete(id);
+        res.json(product);
+    } catch (err) {
+        res.status(500).json({error:err.message});
+    }
+})
+
+
 module.exports=adminRouter;

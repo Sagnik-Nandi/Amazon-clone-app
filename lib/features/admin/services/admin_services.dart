@@ -7,7 +7,9 @@ import 'package:amazon_clone/constants/utils.dart';
 import 'package:amazon_clone/models/product.dart';
 import 'package:amazon_clone/providers/user_provider.dart';
 import 'package:cloudinary_public/cloudinary_public.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:http/http.dart' as http;
 import 'package:provider/provider.dart';
 
@@ -91,5 +93,30 @@ class AdminServices{
       showSnackBar(context, err.toString());
     }
     return products;
+  }
+
+  //Delete product
+  void deleteProduct({
+    required BuildContext context, 
+    required Product product,
+    required VoidCallback onSuccess,
+  }) async{
+    final token = Provider.of<UserProvider>(context, listen: false).user.token;
+
+    try {
+      http.Response res = await http.post(
+        Uri.parse('$uri/admin/remove-product'), 
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8',
+          'x-auth-token': token,
+        },
+        body: jsonEncode({'id': product.id}),
+      );
+
+      httpErrorHandler(response: res, context: context, onSuccess: onSuccess);
+
+    } catch (err) {
+      showSnackBar(context, err.toString());
+    }
   }
 }

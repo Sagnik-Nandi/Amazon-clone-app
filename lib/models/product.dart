@@ -7,7 +7,7 @@ class Product {
   final num price;
   final num quantity;
   final String category;
-  final List<String> images;
+  final List<dynamic> images;
 
   final String? id;
 
@@ -42,8 +42,8 @@ class Product {
       price: map['price'] as num,
       quantity: map['quantity'] as num,
       category: map['category'] as String,
-      images: List<String>.from((map['images'] as List<String>)),
-      id: map['_id'] != null ? map['id'] as String : null,
+      images: List<dynamic>.from((map['images'] as List<dynamic>)),
+      id: map['_id'] != null ? map['_id'] as String : null,
     );
   }
 
