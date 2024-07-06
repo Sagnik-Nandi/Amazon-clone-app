@@ -10,8 +10,8 @@ const productRouter = require('./routes/product');
 //INITIALIZATION
 const PORT = 3000;
 const api = express();
-const password = encodeURIComponent("MongoDB#01");
-const connectDB = `mongodb+srv://sagnik:${password}@cluster0.hck2gqj.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0`;
+const password = encodeURIComponent("<YOUR PASSWORD>");
+const connectDB = `YOUR MONGODB CLUSTER URI`;
 
 //middleware
 api.use(express.json());
