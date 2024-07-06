@@ -5,6 +5,7 @@ const mongoose = require('mongoose');
 //IMPORT FROM FILES
 const authRouter= require('./routes/auth');
 const adminRouter = require('./routes/admin');
+const productRouter = require('./routes/product');
 
 //INITIALIZATION
 const PORT = 3000;
@@ -16,6 +17,7 @@ const connectDB = `mongodb+srv://sagnik:${password}@cluster0.hck2gqj.mongodb.net
 api.use(express.json());
 api.use(authRouter);
 api.use(adminRouter);
+api.use(productRouter);
 
 //Connections
 mongoose.connect(connectDB).then(() =>{ 
