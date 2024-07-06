@@ -9,7 +9,8 @@ After cloning this repository, migrate to the Amazon_clone folder. Then, follow 
 - Create MongoDB Project & Cluster
 - Click on Connect, follow the process where you will get the uri.- Replace the MongoDB uri with yours in server/index.js.
 - Head to lib/constants/global_variables.dart file, replace with your IP Address.
-
+- Create Cloudinary Project, enable unsigned operation in settings.
+- Head to lib/features/admin/services/admin_services.dart, replace dkdwpotx5 and unpxckbx with your Cloud Name and Upload Preset respectively.
 Then run the following commands to run your app:
 
 ### Server Side
