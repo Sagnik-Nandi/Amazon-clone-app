@@ -28,8 +28,32 @@ productRouter.get("/api/products/search/:input", auth, async(req, res)=>{
         const products = await Product.find({
             name: {$regex:nameRegex, $options:'i'}
         });
-        console.log(products[0].name);
         res.json(products);
+    } catch (err) {
+        res.status(500).json({error: err.message});
+    }
+})
+
+//Rate products by user
+productRouter.post('/api/rate-product', auth, async(req, res)=>{
+    try {
+        const {productId, rating}= req.body;
+        let product = await Product.findById(productId);
+        
+        for(let i=0; i<product.ratings.length; i++){
+            if(product.ratings[i].userId==req.user){
+                product.ratings.splice(i, 1);
+                break;
+            }
+        }
+        
+        const ratingSchema={
+            userId:req.user,
+            rating
+        }
+        product.ratings.push(ratingSchema);
+        await product.save();
+        res.json(product);
     } catch (err) {
         res.status(500).json({error: err.message});
     }

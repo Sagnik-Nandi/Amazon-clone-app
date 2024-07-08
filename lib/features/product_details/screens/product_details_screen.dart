@@ -2,12 +2,15 @@
 import 'package:amazon_clone/common/widgets/custom_button.dart';
 import 'package:amazon_clone/common/widgets/stars.dart';
 import 'package:amazon_clone/features/home/widgets/carousel_image.dart';
+import 'package:amazon_clone/features/product_details/services/product_details_services.dart';
+import 'package:amazon_clone/providers/user_provider.dart';
 import 'package:flutter/material.dart';
 
 import 'package:amazon_clone/constants/global_var.dart';
 import 'package:amazon_clone/features/search/screens/search_screen.dart';
 import 'package:amazon_clone/models/product.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
+import 'package:provider/provider.dart';
 
 class ProductDetailsScreen extends StatefulWidget {
   static const String routeName='/Product-deatils-screen';
@@ -22,6 +25,26 @@ class ProductDetailsScreen extends StatefulWidget {
 }
 
 class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
+  final productDetailsServices= ProductDetailsServices();
+  num avgRating=0; 
+  num myRating=0;
+
+  @override
+  void initState() {
+    super.initState();
+    num totalRating=0;
+    for(int i=0; i<widget.product.ratings!.length; i++){
+      totalRating+=widget.product.ratings![i].rating;
+      if(widget.product.ratings![i].userId==Provider.of<UserProvider>(context, listen: false).user.id){
+        myRating=widget.product.ratings![i].rating;
+      }
+    }
+
+    if(widget.product.ratings!.isNotEmpty){
+      avgRating=totalRating/(widget.product.ratings!.length);
+    }
+    
+  }
 
   void navigateToSearchScreen(String query) {
     Navigator.pushReplacementNamed(context, SearchScreen.routeName, arguments: query);
@@ -104,7 +127,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(widget.product.id!),
-                  const Stars(rating: 3.5)
+                  Stars(rating: avgRating.toDouble())
                 ],
               ),
             ),
@@ -175,7 +198,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
               ),
             ),
             RatingBar.builder(
-              initialRating: 0,
+              initialRating: myRating.toDouble(),
               minRating: 1,
               direction: Axis.horizontal,
               allowHalfRating: true,
@@ -185,7 +208,9 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                 Icons.star,
                 color:GlobalVariables.secondaryColor
               ), 
-              onRatingUpdate: (rating){}
+              onRatingUpdate: (rating){
+                productDetailsServices.rateProduct(context: context, product: widget.product, rating: rating);
+              }
             )
           ],
         ),
