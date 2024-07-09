@@ -1,7 +1,7 @@
 const express = require('express');
 const productRouter = express.Router();
 const auth = require("../middleware/auth");
-const Product = require("../models/product");
+const {Product} = require("../models/product");
 
 //Get products of a specific category
 productRouter.get("/api/products", auth, async(req, res)=>{
@@ -56,6 +56,30 @@ productRouter.post('/api/rate-product', auth, async(req, res)=>{
         res.json(product);
     } catch (err) {
         res.status(500).json({error: err.message});
+    }
+})
+
+//fetch deal of the day using highest rating
+productRouter.get("/api/deal-of-day", auth, async(req, res)=>{
+    try {
+        let products = await Product.find({});
+        let maxRating=0;
+        let maxRated=products[0];
+
+        for(let i=0; i<products.length; i++){
+            let ratingList=products[i].ratings;
+            let totalRating=0;
+            for(let j=0; j<ratingList.length; j++){
+                totalRating+=ratingList[j].rating;
+            }
+            if(ratingList.length!=0 && (maxRating<totalRating/ratingList.length)){
+                maxRating=totalRating/ratingList.length;
+                maxRated=products[i];
+            }
+        }
+        res.json(maxRated);
+    } catch (err) {
+        res.status(500).jsoon({error:err.message})
     }
 })
 

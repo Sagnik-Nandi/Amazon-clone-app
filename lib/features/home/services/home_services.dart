@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:http/http.dart' as http;
 import 'package:provider/provider.dart';
 
@@ -42,4 +43,31 @@ class HomeServices{
 
     return products;
   }
+
+  Future<Product> fetchDealOfDay({
+    required BuildContext context,
+  }) async {
+    final token = Provider.of<UserProvider>(context, listen: false).user.token;
+    Product product= Product(name: '', description: '', price: 0, quantity: 0, category: '', images: []);
+
+    try {
+      http.Response res = await http.get(
+        Uri.parse('$uri/api/deal-of-day'), 
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8',
+          'x-auth-token': token,
+        }
+      );
+
+      httpErrorHandler(response: res, context: context, onSuccess: (){
+        product= Product.fromJson(res.body);
+      });
+      
+    } catch (err) {
+      showSnackBar(context, err.toString());
+    }
+
+    return product;
+  }
+
 }

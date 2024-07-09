@@ -46,6 +46,10 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
     
   }
 
+  void addToCart(){
+    productDetailsServices.addToCart(context: context, product: widget.product);
+  }
+
   void navigateToSearchScreen(String query) {
     Navigator.pushReplacementNamed(context, SearchScreen.routeName, arguments: query);
   }
@@ -179,7 +183,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
             Padding(
               padding: const EdgeInsets.all(10),
               child: CustomButton(
-                onTap: (){},
+                onTap: addToCart,
                 text: "Add to Cart",
                 color: const Color.fromRGBO(254, 216, 19, 1),
                 textColor: Colors.black,

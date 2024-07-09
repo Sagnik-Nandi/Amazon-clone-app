@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const { productSchema } = require('./product');
 
 //create a user model structure with validation
 const userSchema = mongoose.Schema({
@@ -40,8 +41,15 @@ const userSchema = mongoose.Schema({
         type:String,
         default:"user"
     },
-    //cart
-
+    cart:[
+        {
+            product: productSchema,
+            quantity: {
+                type: Number,
+                required: true
+            }
+        }
+    ]
 });
 
 //create user model by passing the schema
