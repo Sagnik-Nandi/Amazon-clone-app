@@ -63,7 +63,7 @@ class _DealOfTheDayState extends State<DealOfTheDay> {
             ),
             Container(
               alignment: Alignment.topLeft,
-              padding: const EdgeInsets.only(left: 15, top: 5, right: 40),
+              padding: const EdgeInsets.only(left: 15, bottom: 5, right: 40),
               child: Text (
                 product!.name,
                 maxLines: 2,
@@ -88,7 +88,7 @@ class _DealOfTheDayState extends State<DealOfTheDay> {
                 'See all deals',
                 style: TextStyle(color: Colors.cyan[800]),
               )
-            )
+            ),
           ],
         ),
       );

@@ -3,6 +3,7 @@ const userRouter = express.Router();
 const auth=require('../middleware/auth');
 const User = require('../models/user');
 const { Product } = require('../models/product');
+const Order = require('../models/order');
 
 //add to cart
 userRouter.post('/api/add-to-cart', auth, async(req, res)=>{
@@ -31,6 +32,7 @@ userRouter.post('/api/add-to-cart', auth, async(req, res)=>{
     }
 })
 
+//remove from cart
 userRouter.delete('/api/remove-from-cart', auth, async(req, res)=> {
     try {
         const {id} = req.body;
@@ -49,6 +51,61 @@ userRouter.delete('/api/remove-from-cart', auth, async(req, res)=> {
 
         await user.save();
         res.json(user);
+    } catch (err) {
+        res.status(500).json({error: err.message});
+    }
+})
+
+//save user address
+userRouter.post('/api/save-address', auth, async(req, res)=>{
+    try {
+        const {address} = req.body;
+        let user= await User.findById(req.user);
+
+        user.address=address;
+        user = await user.save();
+        res.json(user);
+    } catch (err) {
+        res.status(500).json({error: err.message});
+    }
+})
+
+//order a product
+userRouter.post('/api/order-products', auth, async(req, res)=>{
+    try {
+        const {cart, totalPrice, address} = req.body;
+        let items=[];
+
+        for(let i=0; i<cart.length; i++){
+            let product = await Product.findById(cart[i].product._id);
+            //this gets us product from the admin side
+            if(product.quantity >= cart[i].quantity){
+                //validates if ordered quantity is available
+                product.quantity -= cart[i].quantity;
+                items.push({product, quantity: cart[i].quantity});
+                await product.save();
+            }
+            else{
+                return res.status(400).json({msg: "${product.name} is out of stock"});
+            }
+        }
+
+        //update user cart
+        let user = await User.findById(req.user);
+        user.cart=[];
+        user = await user.save();
+
+        //create the order
+        let order= new Order({
+            items,
+            totalPrice,
+            address,
+            userId: req.user,
+            orderedAt: new Date().getTime(),
+        })
+        order = await order.save();
+        res.json(order);
+
     } catch (err) {
         res.status(500).json({error: err.message});
     }

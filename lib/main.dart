@@ -43,7 +43,7 @@ class _MyAppState extends State<MyApp> {
               const ColorScheme.light(primary: GlobalVariables.secondaryColor),
           appBarTheme: const AppBarTheme(
             elevation: 0,
-            iconTheme: IconThemeData(color: Colors.black),
+            iconTheme: IconThemeData (color: Colors.black),
             backgroundColor: GlobalVariables.secondaryColor,
             foregroundColor: Colors.white,
           ),
