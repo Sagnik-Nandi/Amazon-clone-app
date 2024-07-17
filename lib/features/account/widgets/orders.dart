@@ -1,5 +1,9 @@
+import 'package:amazon_clone/common/widgets/loading.dart';
 import 'package:amazon_clone/common/widgets/single_product.dart';
 import 'package:amazon_clone/constants/global_var.dart';
+import 'package:amazon_clone/features/account/services/account_services.dart';
+import 'package:amazon_clone/features/order_details/services/order_details_screen.dart';
+import 'package:amazon_clone/models/order.dart';
 import 'package:flutter/material.dart';
 // import 'package:flutter/widgets.dart';
 
@@ -11,20 +15,25 @@ class Orders extends StatefulWidget {
 }
 
 class _OrdersState extends State<Orders> {
+  final accountServices = AccountServices();
+  List<Order>? orders;
 
-  //temporary list
-  List list=[
-    "https://images.rawpixel.com/image_800/cHJpdmF0ZS9sci9pbWFnZXMvd2Vic2l0ZS8yMDIyLTExL3JtMzYyLTAxYS1tb2NrdXAuanBn.jpg",
-    "https://images.pexels.com/photos/3766180/pexels-photo-3766180.jpeg?cs=srgb&dl=pexels-alexazabache-3766180.jpg&fm=jpg",
-    "https://backend.orbitvu.com/sites/default/files/image/sport-shoe-white-background.jpeg",
-    "https://images.rawpixel.com/image_800/cHJpdmF0ZS9sci9pbWFnZXMvd2Vic2l0ZS8yMDIyLTExL3JtMzYyLTAxYS1tb2NrdXAuanBn.jpg",
-    "https://images.pexels.com/photos/3766180/pexels-photo-3766180.jpeg?cs=srgb&dl=pexels-alexazabache-3766180.jpg&fm=jpg",
-    "https://backend.orbitvu.com/sites/default/files/image/sport-shoe-white-background.jpeg",
-  ];
+  @override
+  void initState() {
+    super.initState();
+    fetchOrders();
+  }
+
+  void fetchOrders() async{
+    orders = await accountServices.fetchOrderDetails(context: context);
+    setState(() {});
+  }
 
   @override
   Widget build(BuildContext context) {
-    return Column(
+    return orders==null
+    ? const Loading()
+    : Column(
       children: [
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -55,9 +64,18 @@ class _OrdersState extends State<Orders> {
           padding: const EdgeInsets.only(left:10, top: 20, right: 0),
           child: ListView.builder(
             scrollDirection: Axis.horizontal,
-            itemCount: list.length,
+            itemCount: orders!.length,
             itemBuilder: ((context, index){
-              return SingleProduct(imageUrl: list[index]);
+              return GestureDetector(
+                onTap: () => Navigator.pushNamed(
+                  context, 
+                  OrderDetailsScreen.routeName, 
+                  arguments: orders![index]
+                ),
+                child: SingleProduct(
+                  imageUrl: orders![index].items[0].images[0]
+                )
+              );
           })),
         )
       ],

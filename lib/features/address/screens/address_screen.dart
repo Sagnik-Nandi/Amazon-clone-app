@@ -89,6 +89,9 @@ class _AddressScreenState extends State<AddressScreen> {
     } else {
       showSnackBar(context, "ERROR");
     }
+
+    dynamic res='';
+    onGpayResult(res);
   }
 
   @override

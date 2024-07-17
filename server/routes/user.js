@@ -86,7 +86,7 @@ userRouter.post('/api/order-products', auth, async(req, res)=>{
                 await product.save();
             }
             else{
-                return res.status(400).json({msg: "${product.name} is out of stock"});
+                return res.status(400).json({msg: `${product.name} is out of stock`});
             }
         }
 
@@ -111,4 +111,13 @@ userRouter.post('/api/order-products', auth, async(req, res)=>{
     }
 })
 
+//fetch order details
+userRouter.get('/api/fetch-orders', auth, async(req, res)=>{
+    try {
+        const orders = await Order.find({userId:req.user});
+        res.json(orders);
+    } catch (err) {
+        res.status(500).json({error: err.message});
+    }
+})
 module.exports= userRouter;
