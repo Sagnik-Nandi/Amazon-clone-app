@@ -10,6 +10,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class CartScreen extends StatefulWidget {
+  static const String routeName = '/cart-screen';
   const CartScreen({super.key});
 
   @override
@@ -104,17 +105,18 @@ class _CartScreenState extends State<CartScreen> {
           children: [
             const AddressBox(),
             const CartSubtotal(),
-            Padding(
-              padding: const EdgeInsets.all(8),
-              child: CustomButton(
-                text: user.cart.length==1 
-                  ? 'Procced to Buy (${user.cart.length} item)'
-                  : 'Procced to Buy (${user.cart.length} items)',
-                onTap:()=> navigateToAddressScreen(sum),
-                color: Colors.yellow[600],
-                textColor: Colors.black,
+            if (user.cart.isNotEmpty)
+              Padding(
+                padding: const EdgeInsets.all(8),
+                child: CustomButton(
+                  text: user.cart.length==1 
+                    ? 'Procced to Buy (${user.cart.length} item)'
+                    : 'Procced to Buy (${user.cart.length} items)',
+                  onTap:()=> navigateToAddressScreen(sum),
+                  color: Colors.yellow[600],
+                  textColor: Colors.black,
+                ),
               ),
-            ),
             const SizedBox(height: 15,),
             Container(
               color: Colors.black12,
@@ -127,7 +129,15 @@ class _CartScreenState extends State<CartScreen> {
               itemBuilder: (context, index) {
                 return CartProduct(index: index);
               }
-            )
+            ),
+            if (user.cart.isEmpty)...[
+              const SizedBox(height: 270,),
+              const Center(
+                child: Text(
+                  "Your cart is empty!"
+                ),
+              ),
+            ],
           ],
         ),
       ),

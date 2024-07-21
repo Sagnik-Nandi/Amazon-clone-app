@@ -2,7 +2,7 @@ import 'package:amazon_clone/common/widgets/loading.dart';
 import 'package:amazon_clone/common/widgets/single_product.dart';
 import 'package:amazon_clone/constants/global_var.dart';
 import 'package:amazon_clone/features/account/services/account_services.dart';
-import 'package:amazon_clone/features/order_details/services/order_details_screen.dart';
+import 'package:amazon_clone/features/order_details/screens/order_details_screen.dart';
 import 'package:amazon_clone/models/order.dart';
 import 'package:flutter/material.dart';
 // import 'package:flutter/widgets.dart';

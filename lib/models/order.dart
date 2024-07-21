@@ -8,6 +8,7 @@ class Order {
   final List<Product> items;
   final List<num> quantity;
   final String address;
+  final num totalPrice;
   final String userId;
   final num orderedAt;
   final num status;
@@ -16,6 +17,7 @@ class Order {
     required this.items,
     required this.quantity,
     required this.address,
+    required this.totalPrice,
     required this.userId,
     required this.orderedAt,
     required this.status,
@@ -28,6 +30,7 @@ class Order {
       'items': items.map((x) => x.toMap()).toList(),
       'quantity': quantity,
       'address': address,
+      'totalPrice': totalPrice,
       'userId': userId,
       'orderedAt': orderedAt,
       'status': status,
@@ -40,6 +43,7 @@ class Order {
       items: List<Product>.from((map['items']).map((x) => Product.fromMap(x['product']),),),
       quantity: List<num>.from((map['items']).map((x) => x['quantity'])),
       address: map['address'] as String,
+      totalPrice: map['totalPrice'] as num,
       userId: map['userId'] as String,
       orderedAt: map['orderedAt'] as num,
       status: map['status'] as num,

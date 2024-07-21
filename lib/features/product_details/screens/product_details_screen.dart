@@ -1,6 +1,9 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
+import 'dart:math';
+
 import 'package:amazon_clone/common/widgets/custom_button.dart';
 import 'package:amazon_clone/common/widgets/stars.dart';
+import 'package:amazon_clone/features/cart/screens/cart_screen.dart';
 import 'package:amazon_clone/features/home/widgets/carousel_image.dart';
 import 'package:amazon_clone/features/product_details/services/product_details_services.dart';
 import 'package:amazon_clone/providers/user_provider.dart';
@@ -53,9 +56,17 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
   void navigateToSearchScreen(String query) {
     Navigator.pushReplacementNamed(context, SearchScreen.routeName, arguments: query);
   }
+  
+  void buyNow() {
+    productDetailsServices.addToCart(context: context, product: widget.product);
+    Navigator.pushNamed(context, CartScreen.routeName);
+  }
 
   @override
   Widget build(BuildContext context) {
+    List<String> available=['Currently unavailable', 'Only 1 left', 'In stock'];
+    List<dynamic> colorScheme = [Colors.red[500], Colors.orange[800], Colors.teal];
+    var index = min(widget.product.quantity, 2) as int;
     return Scaffold(
       appBar: PreferredSize(
         //used to customize size of appbar
@@ -144,6 +155,18 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
             ),
             CarouselImage(images: widget.product.images, height: 300,),
             Container(height:5, color: Colors.black12,),
+            Container(
+                width: 235,
+                padding: const EdgeInsets.symmetric(horizontal: 10),
+                child: Text(
+                  available[index],
+                  maxLines: 2,
+                  style: TextStyle(
+                    color: colorScheme[index],
+                    fontSize: 17
+                  ),
+                ),
+              ),
             Padding(
               padding: const EdgeInsets.all(8),
               child: RichText(
@@ -157,10 +180,15 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                   children: [
                     TextSpan(
                       text: '\u{20B9}${widget.product.price}',
-                      style: const TextStyle(
-                        color: Colors.red,
+                      style: TextStyle(
+                        decoration: index==0
+                          ? TextDecoration.lineThrough 
+                          : TextDecoration.none,
+                        color: index==0
+                          ? Colors.black26
+                          : Colors.red,
                         fontSize: 22,
-                        fontWeight: FontWeight.w500
+                        fontWeight: FontWeight.w500,
                       )
                     ),
                   ]
@@ -171,24 +199,26 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
               padding: const EdgeInsets.all(8),
               child: Text(widget.product.description),
             ),
-            Container(height:5, color: Colors.black12,),
-            Padding(
-              padding: const EdgeInsets.all(10),
-              child: CustomButton(
-                onTap: (){},
-                text: "Buy Now",
+            if(index!=0) ...[
+              Container(height:5, color: Colors.black12,),
+              Padding(
+                padding: const EdgeInsets.all(10),
+                child: CustomButton(
+                  onTap: buyNow,
+                  text: "Buy Now",
+                ),
               ),
-            ),
-            const SizedBox(height: 10,),
-            Padding(
-              padding: const EdgeInsets.all(10),
-              child: CustomButton(
-                onTap: addToCart,
-                text: "Add to Cart",
-                color: const Color.fromRGBO(254, 216, 19, 1),
-                textColor: Colors.black,
+              const SizedBox(height: 10,),
+              Padding(
+                padding: const EdgeInsets.all(10),
+                child: CustomButton(
+                  onTap: addToCart,
+                  text: "Add to Cart",
+                  color: const Color.fromRGBO(254, 216, 19, 1),
+                  textColor: Colors.black,
+                ),
               ),
-            ),
+            ],
             Container(height:5, color: Colors.black12,),
             const Padding(
               padding: EdgeInsets.symmetric(horizontal: 8),

@@ -1,4 +1,6 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
+import 'dart:math';
+
 import 'package:amazon_clone/common/widgets/stars.dart';
 import 'package:flutter/material.dart';
 
@@ -13,6 +15,9 @@ class SearchedProduct extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    List<String> available=['Currently unavailable', 'Only 1 left', 'In stock'];
+    List<dynamic> colorScheme = [Colors.red[500], Colors.orange[800], Colors.teal];
+    var index = min(product.quantity, 2) as int;
 
     num totalRating=0;
     for(int i=0; i<product.ratings!.length; i++){
@@ -69,10 +74,10 @@ class SearchedProduct extends StatelessWidget {
               Container(
                 width: 235,
                 padding: const EdgeInsets.symmetric(horizontal: 10),
-                child: const Text(
-                  'In Stock',
+                child: Text(
+                  available[index],
                   maxLines: 2,
-                  style: TextStyle(color: Colors.teal,),
+                  style: TextStyle(color: colorScheme[index],),
                 ),
               ),
             ],)

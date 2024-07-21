@@ -2,6 +2,7 @@ const express = require('express');
 const productRouter = express.Router();
 const auth = require("../middleware/auth");
 const {Product} = require("../models/product");
+const Order = require('../models/order');
 
 //Get products of a specific category
 productRouter.get("/api/products", auth, async(req, res)=>{
@@ -38,22 +39,33 @@ productRouter.get("/api/products/search/:input", auth, async(req, res)=>{
 productRouter.post('/api/rate-product', auth, async(req, res)=>{
     try {
         const {productId, rating}= req.body;
-        let product = await Product.findById(productId);
-        
-        for(let i=0; i<product.ratings.length; i++){
-            if(product.ratings[i].userId==req.user){
-                product.ratings.splice(i, 1);
-                break;
+        const validUser = await Order.find({
+            'userId': req.user,
+            'status': 4,
+            'items.product._id':productId,
+        });
+        if(validUser.length==0 ){
+            res.status(400).json({msg: 'Cannot rate this product'});
+        }
+        else{
+            let product = await Product.findById(productId);
+            
+            for(let i=0; i<product.ratings.length; i++){
+                if(product.ratings[i].userId==req.user){
+                    product.ratings.splice(i, 1);
+                    break;
+                }
             }
+            
+            const ratingSchema={
+                userId:req.user,
+                rating
+            }
+            product.ratings.push(ratingSchema);
+            await product.save();
+            res.json(product);
         }
         
-        const ratingSchema={
-            userId:req.user,
-            rating
-        }
-        product.ratings.push(ratingSchema);
-        await product.save();
-        res.json(product);
     } catch (err) {
         res.status(500).json({error: err.message});
     }

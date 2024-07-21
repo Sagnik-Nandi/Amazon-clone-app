@@ -7,6 +7,39 @@ void showSnackBar(BuildContext context, String message){
   ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(message)));
 }
 
+void showAlertDialog({
+  required BuildContext context, 
+  required String title,
+  required String content,
+  required void Function(BuildContext) onPressedYes,
+  required VoidCallback onPressedNo
+}) {
+  Widget yesButton = TextButton(
+    onPressed: ()=> onPressedYes(context), 
+    child: Text("Yes")
+  );
+  Widget noButton = TextButton(
+    onPressed: onPressedNo, 
+    child: Text("No")
+  );
+
+  AlertDialog alert = AlertDialog(
+    title: Text(title),
+    content: Text(content),
+    actions: [
+      yesButton,
+      noButton
+    ],
+  );
+
+  showDialog(
+    context: context, 
+    builder: (BuildContext context){
+      return alert;
+    }
+  );
+}
+
 Future<List<File>> pickImages() async {
   List <File> images=[];
   try {

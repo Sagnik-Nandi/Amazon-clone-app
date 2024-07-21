@@ -1,6 +1,7 @@
 import 'package:amazon_clone/common/widgets/loading.dart';
 import 'package:amazon_clone/common/widgets/single_product.dart';
 import 'package:amazon_clone/features/admin/screens/add_product.dart';
+import 'package:amazon_clone/features/admin/screens/edit_products.dart';
 import 'package:amazon_clone/features/admin/services/admin_services.dart';
 import 'package:amazon_clone/models/product.dart';
 import 'package:flutter/material.dart';
@@ -67,6 +68,12 @@ class _ProductsScreenState extends State<ProductsScreen> {
                       maxLines: 2,
                       overflow: TextOverflow.ellipsis,
                     ),
+                  ),
+                  IconButton(
+                    onPressed: () {
+                      Navigator.pushNamed(context, EditProductScreen.routeName, arguments: productData);
+                    }, 
+                    icon: const Icon(Icons.edit_outlined)
                   ),
                   IconButton(
                     onPressed: () => deleteProduct(productData, index), 

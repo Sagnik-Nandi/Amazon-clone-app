@@ -1,10 +1,12 @@
 import 'package:amazon_clone/common/widgets/bottom_bar.dart';
 import 'package:amazon_clone/features/address/screens/address_screen.dart';
 import 'package:amazon_clone/features/admin/screens/add_product.dart';
+import 'package:amazon_clone/features/admin/screens/edit_products.dart';
 import 'package:amazon_clone/features/auth/screens/auth_screen.dart';
+import 'package:amazon_clone/features/cart/screens/cart_screen.dart';
 import 'package:amazon_clone/features/home/screens/category_screen.dart';
 import 'package:amazon_clone/features/home/screens/home_screen.dart';
-import 'package:amazon_clone/features/order_details/services/order_details_screen.dart';
+import 'package:amazon_clone/features/order_details/screens/order_details_screen.dart';
 import 'package:amazon_clone/features/product_details/screens/product_details_screen.dart';
 import 'package:amazon_clone/features/search/screens/search_screen.dart';
 import 'package:amazon_clone/models/order.dart';
@@ -67,6 +69,18 @@ Route<dynamic> generateRoute(RouteSettings routeSettings) {
           )
       );
       
+    case CartScreen.routeName: 
+      return MaterialPageRoute(
+          settings: routeSettings, builder: (_) => const CartScreen()
+      );
+      
+    case EditProductScreen.routeName:
+    var product= routeSettings.arguments as Product;
+      return MaterialPageRoute(
+          settings: routeSettings, builder: (_) => EditProductScreen(
+            product: product,
+          ));
+
     default:
       return MaterialPageRoute(
           settings: routeSettings,
